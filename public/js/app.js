@@ -1829,14 +1829,14 @@ __webpack_require__.r(__webpack_exports__);
     getUsers: function getUsers() {
       var _this = this;
 
-      axios.get("/admin/users").then(function (res) {
+      axios.get("/tms/admin/users").then(function (res) {
         _this.users = res.data.data;
       });
     },
     storeData: function storeData() {
       var _this2 = this;
 
-      this.form.post("/admin/tasks").then(function (res) {
+      this.form.post("/tms/admin/tasks").then(function (res) {
         _this2.form.reset();
 
         $('#file').val('');
@@ -1924,7 +1924,7 @@ __webpack_require__.r(__webpack_exports__);
     getTasks: function getTasks() {
       var _this = this;
 
-      axios.get("/admin/tasks").then(function (res) {
+      axios.get("/tms/admin/tasks").then(function (res) {
         _this.tasks = res.data.data;
       });
     },
@@ -1941,7 +1941,7 @@ __webpack_require__.r(__webpack_exports__);
         confirmButtonText: 'Yes, delete it!'
       }).then(function (result) {
         if (result.value) {
-          axios["delete"]("/admin/tasks/" + task.id).then(function (res) {
+          axios["delete"]("/tms/admin/tasks/" + task.id).then(function (res) {
             _this2.getTasks();
 
             toast.fire({
@@ -2077,14 +2077,14 @@ __webpack_require__.r(__webpack_exports__);
     getTasks: function getTasks() {
       var _this = this;
 
-      axios.get("/tasks").then(function (res) {
+      axios.get("/tms/tasks").then(function (res) {
         _this.tasks = res.data.data;
       });
     },
     completeTask: function completeTask(task) {
       var _this2 = this;
 
-      axios.post("/task/".concat(task.id, "/complete")).then(function (res) {
+      axios.post("/tms/task/".concat(task.id, "/complete")).then(function (res) {
         _this2.getTasks();
       });
     },

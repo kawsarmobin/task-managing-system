@@ -40,13 +40,13 @@ export default {
     },
     methods: {
         getTasks(){
-            axios.get(`/tasks`)
+            axios.get(`/tms/tasks`)
             .then(res => {
                 this.tasks = res.data.data;
             })
         },
         completeTask(task){
-            axios.post(`/task/${task.id}/complete`)
+            axios.post(`/tms/task/${task.id}/complete`)
             .then(res => {
                 this.getTasks();
             })

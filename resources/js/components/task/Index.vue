@@ -42,7 +42,7 @@ export default {
     },
     methods: {
         getTasks(){
-            axios.get(`/admin/tasks`)
+            axios.get(`/tms/admin/tasks`)
             .then(res => {
                 this.tasks = res.data.data;
             })
@@ -58,7 +58,7 @@ export default {
             confirmButtonText: 'Yes, delete it!'})
             .then((result) => {
                 if (result.value) {
-                    axios.delete(`/admin/tasks/`+task.id)
+                    axios.delete(`/tms/admin/tasks/`+task.id)
                     .then(res => {
                         this.getTasks();
                         toast.fire({

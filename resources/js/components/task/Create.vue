@@ -63,13 +63,13 @@ export default {
     },
     methods: {
         getUsers(){
-            axios.get(`/admin/users`)
+            axios.get(`/tms/admin/users`)
             .then(res => {
                 this.users = res.data.data;
             })
         },
         storeData(){
-            this.form.post(`/admin/tasks`)
+            this.form.post(`/tms/admin/tasks`)
             .then(res => {
                 this.form.reset();
                 $('#file').val('');
