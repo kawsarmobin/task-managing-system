@@ -37,9 +37,29 @@ class TasksController extends Controller
      */
     public function store(CreateTaskRequest $request)
     {
-        if (condition) {
-            # code...
+        
+        if($file = $request->file){
+            $fileName = $this->fileUpload($file);
         }
+
+        return response()->json([
+            'data' => $fileName
+        ]);
+    }
+
+    public function fileUpload($file)
+    {
+        // extention
+        $extention = explode('/', mime_content_type($file))[1];
+        // file name
+        $fileName = str_random(10).'.'.$extention;
+        // file
+        $file = str_replace(explode(',', $file)[0].',', '', $file);
+        $file = str_replace(' ', '+', $file);
+        // upload file
+        \File::put('uploads' .'/' . $fileName, base64_decode($file));
+
+        return $fileName;
     }
 
     /**

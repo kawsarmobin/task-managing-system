@@ -19,4 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('tasks', 'Admin\TasksController');
+Route::group(['prefix' => 'admin','middleware'=>'auth'], function () {
+    Route::resource('/tasks', 'Admin\TasksController');
+});
+
