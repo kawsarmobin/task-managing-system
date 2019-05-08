@@ -14,7 +14,18 @@ import { Form, HasError, AlertError } from 'vform'
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
 
+import swal from "sweetalert2";
+const toast = swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 3000
+});
+  
+window.Fire = new Vue();
 window.Form = Form;
+window.swal = swal;
+window.toast = toast;
 
 /**
  * The following block of code may be used to automatically register your
@@ -29,6 +40,8 @@ window.Form = Form;
 
 // Task
 Vue.component('app-task-create', require('./components/task/Create.vue').default);
+Vue.component('app-task-index', require('./components/task/Index.vue').default);
+Vue.component('app-task-show', require('./components/task/Show.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

@@ -16,7 +16,13 @@ class TasksController extends Controller
      */
     public function index()
     {
-        //
+        if(request()->expectsJson()){
+            return response()->json([
+                'data' => Task::orderBy('title')->get()
+            ]);
+        }
+        
+        return view('tasks.index');
     }
 
     /**
@@ -37,13 +43,15 @@ class TasksController extends Controller
      */
     public function store(CreateTaskRequest $request)
     {
-        
         if($file = $request->file){
             $fileName = $this->fileUpload($file);
+            $request['file'] = $fileName;
         }
 
+        Task::create($request->all());
+
         return response()->json([
-            'data' => $fileName
+            'data' => 'done'
         ]);
     }
 
@@ -104,6 +112,9 @@ class TasksController extends Controller
      */
     public function destroy(Task $task)
     {
-        //
+        $task->delete();
+        return response()->json([
+            'data' => 'done'
+        ]);
     }
 }

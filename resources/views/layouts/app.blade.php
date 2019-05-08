@@ -79,7 +79,7 @@
                     <div class="col-md-3">
                         <ul class="list-group">
                             <li class="list-group-item"><a href="{{ route('tasks.create') }}">Task Create</a></li>
-                            <li class="list-group-item"><a href="">Task List</a></li>
+                            <li class="list-group-item"><a href="{{ route('tasks.index') }}">Task List</a></li>
                         </ul>
                     </div>
                     <div class="col-md-9">
