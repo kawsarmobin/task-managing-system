@@ -4,6 +4,16 @@
     <div class="card-body">
         <form @submit.prevent="storeData()">
             <div class="form-group row">
+                <label class="col-sm-2 col-form-label">User</label>
+                <div class="col-sm-10">
+                    <select class="form-control" v-model="form.user">
+                        <option value="">Pick User</option>
+                        <option v-for="(user, index) in users" :key="index" :value="user.id" :class="{'is-invalid': form.errors.has('user')}">{{ user.name }}</option>
+                    </select>
+                    <has-error :form="form" field="user"></has-error>
+                </div>
+            </div>
+            <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Title</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" name="title" placeholder="Title" v-model="form.title" :class="{ 'is-invalid': form.errors.has('title') }">
@@ -41,15 +51,23 @@
 export default {
     data(){
         return {
+            users: [],
             form: new Form({
                 title: '',
                 des: '',
                 deadline: '',
                 file: '',
+                user: '',
             }),
         }
     },
     methods: {
+        getUsers(){
+            axios.get(`/admin/users`)
+            .then(res => {
+                this.users = res.data.data;
+            })
+        },
         storeData(){
             this.form.post(`/admin/tasks`)
             .then(res => {
@@ -74,6 +92,9 @@ export default {
             };
             reader.readAsDataURL(file);
         },
+    },
+    created(){
+        this.getUsers();
     }
 }
 </script>

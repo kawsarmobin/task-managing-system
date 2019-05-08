@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\User;
 
 use App\Models\Task;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CreateTaskRequest;
 
 class TasksController extends Controller
 {
@@ -16,13 +15,7 @@ class TasksController extends Controller
      */
     public function index()
     {
-        if(request()->expectsJson()){
-            return response()->json([
-                'data' => Task::orderBy('title')->with('user')->get()
-            ]);
-        }
-        
-        return view('tasks.index');
+        //
     }
 
     /**
@@ -32,7 +25,7 @@ class TasksController extends Controller
      */
     public function create()
     {
-        return view('tasks.create');
+        //
     }
 
     /**
@@ -41,35 +34,9 @@ class TasksController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreateTaskRequest $request)
+    public function store(Request $request)
     {
-        if($file = $request->file){
-            $fileName = $this->fileUpload($file);
-            $request['file'] = $fileName;
-        }
-
-        $request['user_id'] = $request->user;
-
-        Task::create($request->all());
-
-        return response()->json([
-            'data' => 'done'
-        ]);
-    }
-
-    public function fileUpload($file)
-    {
-        // extention
-        $extention = explode('/', mime_content_type($file))[1];
-        // file name
-        $fileName = str_random(10).'.'.$extention;
-        // file
-        $file = str_replace(explode(',', $file)[0].',', '', $file);
-        $file = str_replace(' ', '+', $file);
-        // upload file
-        \File::put('uploads' .'/' . $fileName, base64_decode($file));
-
-        return $fileName;
+        //
     }
 
     /**
@@ -114,9 +81,6 @@ class TasksController extends Controller
      */
     public function destroy(Task $task)
     {
-        $task->delete();
-        return response()->json([
-            'data' => 'done'
-        ]);
+        //
     }
 }

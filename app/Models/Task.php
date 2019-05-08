@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\User;
 
 class Task extends Model
 {
     protected $fillable = [
-        'title', 'des', 'file', 'deadline'
+        'user_id', 'title', 'des', 'file', 'deadline'
     ];
 
     protected $appends = [
@@ -33,5 +34,10 @@ class Task extends Model
         if($this->file){
             return asset('uploads/'.$this->file);
         }
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

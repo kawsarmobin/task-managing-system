@@ -1802,23 +1802,42 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      users: [],
       form: new Form({
         title: '',
         des: '',
         deadline: '',
-        file: ''
+        file: '',
+        user: ''
       })
     };
   },
   methods: {
-    storeData: function storeData() {
+    getUsers: function getUsers() {
       var _this = this;
 
+      axios.get("/admin/users").then(function (res) {
+        _this.users = res.data.data;
+      });
+    },
+    storeData: function storeData() {
+      var _this2 = this;
+
       this.form.post("/admin/tasks").then(function (res) {
-        _this.form.reset();
+        _this2.form.reset();
 
         $('#file').val('');
         toast.fire({
@@ -1833,16 +1852,19 @@ __webpack_require__.r(__webpack_exports__);
       this.createImage(files[0]);
     },
     createImage: function createImage(file) {
-      var _this2 = this;
+      var _this3 = this;
 
       var reader = new FileReader();
 
       reader.onload = function (e) {
-        _this2.form.file = e.target.result;
+        _this3.form.file = e.target.result;
       };
 
       reader.readAsDataURL(file);
     }
+  },
+  created: function created() {
+    this.getUsers();
   }
 });
 
@@ -1857,6 +1879,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
 //
 //
 //
@@ -41081,6 +41105,73 @@ var render = function() {
         [
           _c("div", { staticClass: "form-group row" }, [
             _c("label", { staticClass: "col-sm-2 col-form-label" }, [
+              _vm._v("User")
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "col-sm-10" },
+              [
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.form.user,
+                        expression: "form.user"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.form,
+                          "user",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      }
+                    }
+                  },
+                  [
+                    _c("option", { attrs: { value: "" } }, [
+                      _vm._v("Pick User")
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(_vm.users, function(user, index) {
+                      return _c(
+                        "option",
+                        {
+                          key: index,
+                          class: { "is-invalid": _vm.form.errors.has("user") },
+                          domProps: { value: user.id }
+                        },
+                        [_vm._v(_vm._s(user.name))]
+                      )
+                    })
+                  ],
+                  2
+                ),
+                _vm._v(" "),
+                _c("has-error", { attrs: { form: _vm.form, field: "user" } })
+              ],
+              1
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group row" }, [
+            _c("label", { staticClass: "col-sm-2 col-form-label" }, [
               _vm._v("Title")
             ]),
             _vm._v(" "),
@@ -41272,6 +41363,10 @@ var render = function() {
                 _vm._v(_vm._s(task.title))
               ]),
               _vm._v(" "),
+              _c("td", { staticClass: "text-capitalize" }, [
+                _vm._v(_vm._s(task.user.name))
+              ]),
+              _vm._v(" "),
               _c("td", [_vm._v(_vm._s(task.deadline))]),
               _vm._v(" "),
               _c("td", [_vm._v(_vm._s(task.status))]),
@@ -41336,6 +41431,8 @@ var staticRenderFns = [
         _c("th", [_vm._v("#")]),
         _vm._v(" "),
         _c("th", [_vm._v("Title")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("User")]),
         _vm._v(" "),
         _c("th", [_vm._v("Deadline")]),
         _vm._v(" "),

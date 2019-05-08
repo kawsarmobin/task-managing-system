@@ -15,14 +15,17 @@ class CreateTasksTable extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('user_id');
             $table->string('title');
             $table->text('des');
-            $table->string('file');
+            $table->string('file')->nullable();
             $table->date('deadline');
-            $table->boolean('pending')->default(false);
+            $table->boolean('pending')->default(true);
             $table->boolean('completed')->default(false);
             $table->boolean('fail_deadline')->default(false);
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

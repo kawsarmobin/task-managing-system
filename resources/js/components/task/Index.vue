@@ -7,6 +7,7 @@
                 <tr>
                     <th>#</th>
                     <th>Title</th>
+                    <th>User</th>
                     <th>Deadline</th>
                     <th>Status</th>
                     <th>Action</th>
@@ -16,6 +17,7 @@
                 <tr v-for="(task,index) in tasks" :key="index">
                     <td>{{ ++index }}</td>
                     <td class="text-capitalize">{{ task.title }}</td>
+                    <td class="text-capitalize">{{ task.user.name }}</td>
                     <td>{{ task.deadline }}</td>
                     <td>{{ task.status }}</td>
                     <td>
