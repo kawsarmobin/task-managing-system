@@ -1,6 +1,6 @@
 <template>
 <div class="card bg-light mb-3">
-    <div class="card-header">All Task</div>
+    <div class="card-header">My Tasks</div>
     <div class="card-body">
         <table class="table table-bordered">
             <thead>
