@@ -76,13 +76,18 @@
         <main class="py-4">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-3">
-                        <ul class="list-group">
-                            <li class="list-group-item"><a href="{{ route('tasks.create') }}">Task Create</a></li>
-                            <li class="list-group-item"><a href="{{ route('tasks.index') }}">Task List</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-md-9">
+                    @if (auth()->check())
+                        <div class="col-md-3">
+                            <ul class="list-group">
+                                @if (auth()->user()->is_admin)
+                                <li class="list-group-item"><a href="{{ route('admin.tasks.create') }}">Task Create</a></li>
+                                <li class="list-group-item"><a href="{{ route('admin.tasks.index') }}">Task List</a></li>
+                                @endif
+                                <li class="list-group-item"><a href="{{ route('tasks.index') }}">My Task List</a></li>
+                            </ul>
+                        </div>
+                    @endif
+                    <div class="{{ auth()->check() ? 'col-md-9' : 'col-md-12' }}">
                         @yield('content')
                     </div>
                 </div>

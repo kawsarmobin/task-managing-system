@@ -7,7 +7,6 @@
                 <tr>
                     <th>#</th>
                     <th>Title</th>
-                    <th>User</th>
                     <th>Deadline</th>
                     <th>Status</th>
                     <th>Action</th>
@@ -17,14 +16,13 @@
                 <tr v-for="(task,index) in tasks" :key="index">
                     <td>{{ ++index }}</td>
                     <td class="text-capitalize">{{ task.title }}</td>
-                    <td class="text-capitalize">{{ task.user.name }}</td>
                     <td>{{ task.deadline }}</td>
                     <td>{{ task.status }}</td>
                     <td>
                         <button type="button" class="btn btn-sm btn-outline-primary" @click.prevent="showTask(task)">Show</button>
-                        <app-user-task-show :task="task" :modalId="'task'+task.id"></app-user-task-show>
-                        <button @click.prevent="deleteTask(task)" class="btn btn-sm btn-outline-danger">
-                            Delete
+                        <app-task-show :task="task" :modalId="'task'+task.id"></app-task-show>
+                        <button v-if="task.pending" @click.prevent="completeTask(task)" class="btn btn-sm btn-outline-success">
+                            Complete
                         </button>
                     </td>
                 </tr>
@@ -42,31 +40,15 @@ export default {
     },
     methods: {
         getTasks(){
-            axios.get(`/admin/tasks`)
+            axios.get(`/tasks`)
             .then(res => {
                 this.tasks = res.data.data;
             })
         },
-        deleteTask(task){
-            swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'})
-            .then((result) => {
-                if (result.value) {
-                    axios.delete(`/admin/tasks/`+task.id)
-                    .then(res => {
-                        this.getTasks();
-                        toast.fire({
-                            type: 'success',
-                            title: 'Task has been deleted successfully'
-                        })
-                    })
-                }
+        completeTask(task){
+            axios.post(`/task/${task.id}/complete`)
+            .then(res => {
+                this.getTasks();
             })
         },
         showTask(task){

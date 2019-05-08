@@ -43,6 +43,10 @@ Vue.component('app-task-create', require('./components/task/Create.vue').default
 Vue.component('app-task-index', require('./components/task/Index.vue').default);
 Vue.component('app-task-show', require('./components/task/Show.vue').default);
 
+
+Vue.component('app-user-task-index', require('./components/user/task/Index.vue').default);
+Vue.component('app-user-task-show', require('./components/user/task/Show.vue').default);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\User;
+use Illuminate\Support\Carbon;
 
 class Task extends Model
 {
@@ -39,5 +40,15 @@ class Task extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function getDeadlineAttribute()
+    {
+        if($this->attributes['deadline'] < Carbon::now() && !$this->attributes['completed']){
+            $this->attributes['pending'] = false;
+            $this->attributes['fail_deadline'] = true;
+            $this->save();
+        }
+        return $this->attributes['deadline'];
     }
 }
